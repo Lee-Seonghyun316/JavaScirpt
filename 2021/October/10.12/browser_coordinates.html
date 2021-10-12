@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body{
+            background: saddlebrown;
+            /*overflow: hidden;*/
+            /*스크롤 ox*/
+        }
+        .circle{
+            height: 250px;
+            width: 250px;
+            background: pink;
+            margin-bottom: 40px;
+            border-radius: 50%;
+        }
+        .special{
+            background: violet;
+        }
+    </style>
+</head>
+<body>
+<div class="circle basic"></div>
+<div class="circle basic"></div>
+<div class="circle basic"></div>
+<div class="circle basic"></div>
+<div class="circle basic"></div>
+<div class="circle basic"></div>
+<div class="circle basic"></div>
+<div class="circle basic"></div>
+<div class="circle special"></div>
+<div class="circle basic"></div>
+<div class="circle basic"></div>
+<script>
+    const special = document.querySelector('.special');
+    special.addEventListener('click', (event) => {
+        console.log(`client: ${event.clientX}, ${event.clientY}`);
+        console.log(`Page: ${event.pageX}, ${event.pageY}`);
+    });
+//    1. client 와 page 는 어떤 객체 안에 있는가 ?
+</script>
+</body>
+</html>
