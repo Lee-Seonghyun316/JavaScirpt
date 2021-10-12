@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>window_scrollingAPIs</title>
+    <style>
+        body {
+            background: darkslateblue;
+        }
+
+        .circle {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            margin-bottom: 40px;
+            background: cornflowerblue;
+        }
+
+        .special {
+            background: violet;
+        }
+
+        aside {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+        }
+
+        .scroll_button {
+            background: black;
+            border-radius: 10px;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<div class="circle"></div>
+<div class="circle"></div>
+<div class="circle"></div>
+<div class="circle"></div>
+<div class="circle"></div>
+<div class="circle"></div>
+<div class="circle"></div>
+<div class="circle"></div>
+<div class="circle special"></div>
+<div class="circle"></div>
+<div class="circle"></div>
+<aside>
+    <button class="scroll_button by100">Scroll by 100px(y)</button>
+    <button class="scroll_button to100">Scroll to 100px(y)</button>
+    <button class="scroll_button toHere">Scroll into special</button>
+</aside>
+<script>
+    const special = document.querySelector('.special');
+    const by100 = document.querySelector('.by100');
+    const to100 = document.querySelector('.to100');
+    const toHere = document.querySelector('.toHere');
+    by100.addEventListener('click', () => {
+        window.scrollBy({
+            top: 100,
+            left: 0,
+            behavior: 'smooth'
+        })
+    })
+    to100.addEventListener('click', () => {
+        window.scrollTo(0, 100);
+    })
+    toHere.addEventListener('click', () => {
+        special.scrollIntoView({behavior: "smooth", block: "center"});
+    })
+//    1. scroll api 어떻게 찾지 ? -> mdn 검색
+</script>
+</body>
+</html>
