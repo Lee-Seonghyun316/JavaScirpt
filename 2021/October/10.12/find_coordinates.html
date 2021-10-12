@@ -43,6 +43,12 @@
             height: 20px;
             border: 2px solid pink;
         }
+        .des {
+            width: 100px;
+            height: 20px;
+            color: pink;
+            transform: translate(60%, 150%);
+        }
     </style>
 </head>
 <body>
@@ -50,19 +56,24 @@
 <div class="line vertical"></div>
 <div class="find big">
     <div class="find small"></div>
+    <div class="des"></div>
 </div>
-<div class="des"></div>
 <script>
     const find = document.querySelector('.find');
     const horizontal = document.querySelector('.horizontal');
     const vertical = document.querySelector('.vertical');
+    const des = document.querySelector('.des');
     const logKey = (e) => {
+        des.innerHTML = `${e.clientX}px, ${e.clientY}px`
         find.style.top = `${e.clientY}px`;
         find.style.left = `${e.clientX}px`;
         horizontal.style.top = `${e.clientY}px`;
         vertical.style.left = `${e.clientX}px`;
     }
-    document.addEventListener('mousemove', logKey)
+    document.addEventListener('mousemove', logKey);
+//    피드백
+//    des 표시 안해줬다 !
+//    innerHTML 보다 좋은 거 있을까?
 </script>
 </body>
 </html>
