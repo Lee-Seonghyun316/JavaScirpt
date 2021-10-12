@@ -39,10 +39,15 @@
 <script>
     const special = document.querySelector('.special');
     special.addEventListener('click', (event) => {
+        const rect = special.getBoundingClientRect();
+        console.log(rect);
         console.log(`client: ${event.clientX}, ${event.clientY}`);
         console.log(`Page: ${event.pageX}, ${event.pageY}`);
     });
 //    1. client 와 page 는 어떤 객체 안에 있는가 ?
+
+//    피드백 rect 도 한번 확인해 보자 . -> DOM 의 위치, 크기 정보..
+//    right bottom 은 css 와는 다르다.
 </script>
 </body>
 </html>
