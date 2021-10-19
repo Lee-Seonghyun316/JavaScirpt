@@ -7,6 +7,7 @@ const count = document.querySelector(`.count`);
 const popUp = document.querySelector(`.pop_up`);
 const popUpMessage = document.querySelector(`.pop_up_message`);
 const refresh = document.querySelector(`.refresh`);
+const timer = document.querySelector(`.timer`);
 const rand = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -23,7 +24,7 @@ const init = () => {
     deleteAllItem();
     start.className=`game_button game_button_hide`;
     stop.className=`game_button`;
-    for (let i = 0; i < MAX; i++) {
+    for (let i = 0; i < MAX_ITEM; i++) {
         let carrot = makeItem('carrot');
         carrot.addEventListener('click', onCarrot);
         let bug = makeItem('bug');
@@ -31,6 +32,17 @@ const init = () => {
         gameField.appendChild(carrot);
         gameField.appendChild(bug);
     }
+}
+
+const onTimer = () => {
+    let time = 10;
+    window.setInterval(()=> {
+        time -= 1;
+        timer.textContent = time;
+        if(timer.textContent === '0'){
+            onBug();
+        }
+    }, 1000);
 }
 
 const onStop = () => {
@@ -53,6 +65,11 @@ const onCarrot = (event) => {
     let carrots = document.querySelectorAll(`.carrot`);
     console.log(carrots.length);
     count.textContent = `${carrots.length}`;
+    if(carrots.length === 0){
+        popUp.className = 'pop_up';
+        console.log(popUp.className);
+        popUpMessage.textContent = `YOU WON`;
+    }
 }
 
 const onBug = () => {
