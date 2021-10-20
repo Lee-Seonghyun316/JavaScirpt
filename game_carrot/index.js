@@ -10,7 +10,7 @@ const refresh = document.querySelector(`.refresh`);
 const timer = document.querySelector(`.timer`);
 const itemField = gameField.getBoundingClientRect();
 let nowTime = 0;
-
+// js 강의 때는 if 문 말고 어떤걸 쓸지 피드백 받아보기
 const rand = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -98,7 +98,6 @@ const onCarrot = (event) => {
     let target = event.target;
     gameField.removeChild(target);
     let carrots = document.querySelectorAll(`.carrot`);
-    console.log(carrots.length);
     count.textContent = `${carrots.length}`;
     if (carrots.length === 0) {
         win();
@@ -107,14 +106,12 @@ const onCarrot = (event) => {
 
 const win = () => {
     popUp.className = 'pop_up';
-    console.log(popUp.className);
     popUpMessage.textContent = `YOU WON`;
     stop.style.visibility = `hidden`;
 }
 
 const onBug = () => {
     popUp.className = 'pop_up';
-    console.log(popUp.className);
     popUpMessage.textContent = `YOU LOST`;
 };
 
