@@ -1,3 +1,5 @@
+'use strict';
+
 const MAX_ITEM = 8;
 const MAX_TIME = 10;
 const CARROT_SIZE = 50;
