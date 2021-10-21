@@ -50,6 +50,7 @@ button :hover {
 }
 
 .timer {
+    display: none;
     color: white;
     background: #572603;
     padding: 0 20px;
@@ -58,7 +59,7 @@ button :hover {
 }
 
 .count {
-    display: inline-block;
+    display: none;
     margin-top: 7px;
     border-radius: 50%;
     background: white;
@@ -90,6 +91,11 @@ section {
 
 .pop_up_hide {
     display: none;
+}
+
+.item {
+    position: absolute;
+    cursor: pointer;
 }
 
 .carrot {
