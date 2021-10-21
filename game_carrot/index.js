@@ -2,6 +2,7 @@ const MAX_ITEM = 3;
 const MAX_TIME = 5;
 const CARROT_SIZE = 50;
 const gameField = document.querySelector(`.game_field`);
+const itemField = gameField.getBoundingClientRect();
 const start = document.querySelector(`#start`);
 const stop = document.querySelector(`#stop`);
 const count = document.querySelector(`.count`);
@@ -9,10 +10,16 @@ const popUp = document.querySelector(`.pop_up`);
 const popUpMessage = document.querySelector(`.pop_up_message`);
 const refresh = document.querySelector(`.refresh`);
 const timer = document.querySelector(`.timer`);
-const itemField = gameField.getBoundingClientRect();
+
+const carrotSound = new Audio('./sound/carrot_pull.mp3');
+const alertSound = new Audio('./sound/alert.wav');
+const bgSound = new Audio('./sound/bg.mp3');
+const bugSound = new Audio('./sound/bug_pull.mp3');
+const winSound = new Audio('./sound/game_win.mp3');
 
 let remainTime = MAX_TIME;
 let timeRepeat = undefined;
+let started = false;
 
 const rand = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -24,35 +31,37 @@ const rand = (min, max) => {
     피드백 : img path 도 받아, img 태그 만든 후 src 속성에 추가
 */
 const makeItem2 = (className, imgPath) => {
-    const height = rand(0, itemField.height - CARROT_SIZE - 100);
+    const height = rand(0, itemField.height - CARROT_SIZE - 150);
     const width = rand(0, itemField.width - CARROT_SIZE);
     const item = document.createElement('img');
     item.style.top = `${height}px`;
     item.style.left = `${width}px`;
     item.setAttribute('class', className);
     item.setAttribute('src', imgPath);
-    item.addEventListener('click', onItem);
     gameField.appendChild(item);
 }
 const togglePopUp = (text) => {
-    if(text){
+    if (text) {
         popUp.className = 'pop_up';
         popUpMessage.textContent = `${text}`;
-    }
-    else popUp.className = 'pop_up pop_up_hide';
+        stopSound(bgSound);
+    } else popUp.className = 'pop_up pop_up_hide';
 }
 const changeButton = () => {
-    if(start.className === `game_button`){
+    if (start.className === `game_button`) {
         start.className = `game_button game_button_hide`;
         stop.className = `game_button`;
-    }
-    else{
+    } else {
         start.className = `game_button`;
         stop.className = `game_button game_button_hide`;
     }
 }
 const init = () => {
+    playSound(bgSound);
+    started = !started;
+    changeTime();
     if (remainTime === MAX_TIME) {
+        console.log(`시작`);
         count.textContent = `${MAX_ITEM}`;
         timer.style.display = `block`;
         count.style.display = `block`
@@ -95,6 +104,8 @@ const onTimer = () => {
 }
 
 const onStop = () => {
+    stopSound(bgSound);
+    started = !started;
     changeButton();
     togglePopUp(`RePlay?`);
 }
@@ -110,27 +121,54 @@ const deleteAllItem = () => {
     gameField.innerHTML = ``;
 }
 const gameEnd = (text) => {
+    stopSound(bgSound)
+    started = !started;
     togglePopUp(`${text}`);
     stop.style.visibility = `hidden`;
     clearTimeout(timeRepeat);
 }
-const onItem = (event) => {
-    let target = event.target;
-    if(target.className === 'carrot'){
-        gameField.removeChild(target);
-        let carrots = document.querySelectorAll(`.carrot`);
-        count.textContent = `${carrots.length}`;
-        if (carrots.length === 0) {
-            gameEnd(`YOU WON`);
-        }
-    }
-    else {
-        gameEnd(`YOU LOST`);
+const playSound = (sound) => {
+    sound.play();
+}
+const stopSound = (sound) => {
+    sound.pause()
+}
+const onCarrot = (item) => {
+    gameField.removeChild(item);
+    let carrots = document.querySelectorAll(`.carrot`);
+    count.textContent = `${carrots.length}`;
+    playSound(carrotSound);
+    if (carrots.length === 0) {
+        gameEnd(`YOU WON`);
+        playSound(winSound);
     }
 }
+
+//피드백 : 게임이 시작되지 않았을 때는 클릭되지 않도록!
+function onFieldClick(event) {
+    let item = event.target;
+    if (!started) {
+        return;
+    } else {
+        //피드백 : target.matches 사용가능
+        switch (item.className) {
+            case 'carrot' :
+                onCarrot(item);
+                break;
+            case 'bug' :
+                gameEnd(`YOU LOST`);
+                playSound(bugSound);
+                break;
+            default:
+                return;
+        }
+    }
+}
+
 const onRefresh = () => {
     location.reload();
 }
+gameField.addEventListener('click', onFieldClick);
 start.addEventListener('click', init);
 refresh.addEventListener('click', onRefresh);
 stop.addEventListener('click', onStop);
