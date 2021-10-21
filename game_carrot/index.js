@@ -12,6 +12,7 @@ const refresh = document.querySelector(`.refresh`);
 const timer = document.querySelector(`.timer`);
 
 const carrotSound = new Audio('./sound/carrot_pull.mp3');
+const alertSound = new Audio('./sound/alert.wav');
 const bgSound = new Audio('./sound/bg.mp3');
 const bugSound = new Audio('./sound/bug_pull.mp3');
 const winSound = new Audio('./sound/game_win.mp3');
@@ -29,15 +30,17 @@ const rand = (min, max) => {
     피드백 : addEventListen, appendChild 까지 할 수 있도록 일반적 함수 형성
     피드백 : img path 도 받아, img 태그 만든 후 src 속성에 추가
 */
-const makeItem2 = (className, imgPath) => {
-    const height = rand(0, itemField.height - CARROT_SIZE - 150);
-    const width = rand(0, itemField.width - CARROT_SIZE);
-    const item = document.createElement('img');
-    item.style.top = `${height}px`;
-    item.style.left = `${width}px`;
-    item.setAttribute('class', className);
-    item.setAttribute('src', imgPath);
-    gameField.appendChild(item);
+const makeItem = (className, imgPath, count) => {
+    for (let i = 0; i < count; i++) {
+        const height = rand(0, itemField.height - CARROT_SIZE - 150);
+        const width = rand(0, itemField.width - CARROT_SIZE);
+        const item = document.createElement('img');
+        item.style.top = `${height}px`;
+        item.style.left = `${width}px`;
+        item.setAttribute('class', className);
+        item.setAttribute('src', imgPath);
+        gameField.appendChild(item);
+    }
 }
 const togglePopUp = (text) => {
     if (text) {
@@ -67,10 +70,8 @@ const init = () => {
         onTimer();
         deleteAllItem();
         changeButton();
-        for (let i = 0; i < MAX_ITEM; i++) {
-            makeItem2('carrot', './img/carrot.png')
-            makeItem2('bug', './img/bug.png')
-        }
+        makeItem('carrot', './img/carrot.png', MAX_ITEM)
+        makeItem('bug', './img/bug.png', MAX_ITEM)
     } else {
         togglePopUp();
         changeButton();
@@ -105,6 +106,7 @@ const onTimer = () => {
 
 const onStop = () => {
     stopSound(bgSound);
+    playSound(alertSound);
     started = !started;
     changeButton();
     togglePopUp(`RePlay?`);
