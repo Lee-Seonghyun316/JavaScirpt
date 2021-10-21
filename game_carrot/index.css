@@ -37,6 +37,7 @@ button {
     color: saddlebrown;
     font-size: 2rem;
     cursor: pointer;
+    transition: transform 100ms ease-in;
 }
 
 .game_button {
@@ -106,6 +107,7 @@ section {
     height: 50px;
     position: absolute;
     cursor: pointer;
+    transition: transform 100ms ease-in;
 }
 
 .bug {
@@ -114,4 +116,9 @@ section {
     height: 50px;
     position: absolute;
     cursor: pointer;
+}
+
+.carrot:hover,
+.bug:hover{
+    transform: scale(1.1);
 }

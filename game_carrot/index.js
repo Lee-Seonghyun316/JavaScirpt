@@ -1,5 +1,5 @@
-const MAX_ITEM = 3;
-const MAX_TIME = 5;
+const MAX_ITEM = 8;
+const MAX_TIME = 10;
 const CARROT_SIZE = 50;
 const gameField = document.querySelector(`.game_field`);
 const itemField = gameField.getBoundingClientRect();
@@ -12,7 +12,6 @@ const refresh = document.querySelector(`.refresh`);
 const timer = document.querySelector(`.timer`);
 
 const carrotSound = new Audio('./sound/carrot_pull.mp3');
-const alertSound = new Audio('./sound/alert.wav');
 const bgSound = new Audio('./sound/bg.mp3');
 const bugSound = new Audio('./sound/bug_pull.mp3');
 const winSound = new Audio('./sound/game_win.mp3');
@@ -94,6 +93,7 @@ const onTimer = () => {
             remainTime -= 1;
             changeTime();
             if (remainTime <= 0) {
+                playSound(bugSound);
                 clearTimeout(timeRepeat);
                 togglePopUp(`TIME OVER`);
                 stop.style.visibility = 'hidden';
